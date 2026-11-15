@@ -1,0 +1,22 @@
+# Data prep / analysis
+numpy
+pandas
+pillow
+matplotlib
+seaborn
+scipy
+scikit-learn
+tqdm
+
+# Supervised models + phase 1 Autoencoder/VAE (Keras)
+tensorflow>=2.15
+keras-tuner
+
+# Anomaly detection: ResNet18 + OCSVM, ViT-VAE, DDPM, DCGAN (PyTorch)
+torch
+torchvision
+transformers   # ViT-Base encoder for the ViT-VAE
+diffusers      # pretrained google/ddpm-cifar10-32 UNet
+
+# Optional: download the dataset from Kaggle programmatically
+kagglehub

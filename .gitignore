@@ -5,7 +5,9 @@ DS/
 DS_multiclass/
 *.zip
 
-# Model weights
+# Model weights and training artifacts
+models/
+tuner_dir/
 *.pt
 *.pth
 *.keras
@@ -17,3 +19,6 @@ __pycache__/
 .ipynb_checkpoints/
 .venv/
 .DS_Store
+
+# Office lock files
+~$*

@@ -12,6 +12,8 @@ The project was built in two phases:
 | [Phase 1 — Spring 2025](phase1_spring2025/) | Bayesian Machine Learning | Reconstruction-based anomaly detection: Autoencoder, VAE, DCGAN, ViT-VAE |
 | [Phase 2 — Fall 2025](phase2_fall2025/) | Computer Vision | Supervised defect classification (CNN, ResNet50V2, EfficientNet, MobileNetV3) and feature-based anomaly detection (ResNet18 + One-Class SVM, DDPM diffusion) |
 
+![Sample biscuits from each class](docs/figures/sample_images.jpg)
+
 ## Dataset
 
 [Industry Biscuit (Cookie) Dataset](https://www.kaggle.com/datasets/imonbilk/industry-biscuit-cookie-dataset/data)
@@ -24,9 +26,18 @@ The project was built in two phases:
 | Defect: strange object | 158 |
 | Defect: color | 128 |
 
-The data is not included in this repo. Download it from Kaggle, then run the
-notebooks in [`phase2_fall2025/00_data_prep/`](phase2_fall2025/00_data_prep/) to build the
-`train / valid / test` folders the models expect.
+The data is not included in this repo. To set it up:
+
+```bash
+pip install -r requirements.txt
+# 1. Download and unzip the Kaggle dataset into data/IndustryBiscuit (Images/ + Annotations.csv)
+# 2. Build the splits — every biscuit's 4 rotations stay in the same split
+python phase2_fall2025/00_data_prep/prepare_data.py --raw data/IndustryBiscuit --out data/DS_multiclass --mode multiclass
+python phase2_fall2025/00_data_prep/prepare_data.py --raw data/IndustryBiscuit --out data/DS --mode ok_nok
+```
+
+The notebooks read from `data/` by default; set `BISCUIT_DATA_DIR` (or `BISCUIT_RAW_DIR`
+for the EDA notebook) to point somewhere else, e.g. a mounted Google Drive in Colab.
 
 ## Results at a glance
 
@@ -50,27 +61,47 @@ notebooks in [`phase2_fall2025/00_data_prep/`](phase2_fall2025/00_data_prep/) to
 | Basic CNN (Keras Tuner) | ~96% | 0.96 |
 | Advanced CNN (BatchNorm + L2) | ~88% | 0.89 |
 
-> ⚠️ The supervised split in phase 2 assigns images to train/valid/test individually,
-> so rotated copies of the same biscuit can appear in both train and test. These
-> accuracies are therefore likely optimistic; phase 1 split by biscuit (groups of 4)
-> to avoid this.
+> ⚠️ **These supervised numbers are likely optimistic.** The original phase 2 split
+> assigned the 4,900 images to train/valid/test one by one, so rotated copies of the
+> same biscuit could sit in both train and test. `prepare_data.py` now splits by
+> biscuit; the models have not yet been re-trained on the corrected split.
+
+<p align="center">
+  <img src="docs/figures/ocsvm_roc_test.png" width="45%" alt="ROC curve of ResNet18 + OCSVM on the test set">
+  <img src="docs/figures/resnet_confusion_matrix.png" width="45%" alt="Confusion matrix of the fine-tuned ResNet50V2">
+</p>
 
 **Takeaways.** Pretrained CNN features plus a simple one-class model were the most
-reliable anomaly detector. High-capacity generative models (ViT-VAE, DDPM) reconstruct
-defects *too* well — they "repair" stains and foreign objects — so reconstruction error
-stops being a useful anomaly score.
+reliable anomaly detector, and clustering the flagged images recovers the defect types
+(broken shapes, red stains, washers, screws) without any labels:
+
+![Anomalies flagged by the OCSVM, grouped into 4 clusters](docs/figures/ocsvm_anomaly_clusters.jpg)
+
+High-capacity generative models (ViT-VAE, DDPM) reconstruct defects *too* well — they
+"repair" stains and remove foreign objects — so the reconstruction error barely changes
+and stops being a useful anomaly score:
+
+<p align="center">
+  <img src="docs/figures/ddpm_reconstructions.png" width="32%" alt="DDPM reconstructions and error maps for OK and defective biscuits">
+  <img src="docs/figures/vitvae_reconstructions.png" width="60%" alt="ViT-VAE reconstructions on the test set">
+</p>
 
 ## Repository layout
 
 ```
 phase1_spring2025/          Spring 2025 notebooks + original write-up (README.md)
 phase2_fall2025/
-  00_data_prep/             Build train/valid/test folders from the Kaggle download
-  01_eda/                   Class balance, sample grids, resolution analysis
-  02_supervised/            Basic CNN, advanced CNN, transfer learning
-  03_unsupervised/          ResNet18 + OCSVM, DDPM diffusion
-docs/fall2025_report.docx   Phase 2 final report
+  00_data_prep/             prepare_data.py: biscuit-level train/valid/test splits
+  01_eda/                   Class balance, pixel statistics, resolution study
+  02_supervised/            Basic CNN, advanced CNN, transfer learning (ResNet50V2, EfficientNet, MobileNetV3)
+  03_unsupervised/          ResNet18 + One-Class SVM, DDPM diffusion
+docs/
+  fall2025_report.docx      Phase 2 final report
+  figures/                  Figures used in this README
+requirements.txt
 ```
+
+The ViT-VAE notebook lives in `phase1_spring2025/` and was reused unchanged in phase 2.
 
 Trained model weights (hundreds of MB each) are not included.
 
