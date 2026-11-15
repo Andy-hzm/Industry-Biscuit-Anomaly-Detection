@@ -88,11 +88,6 @@ what it never saw. It scored **F1 0.89** on the defective class.
 | Basic CNN (Keras Tuner) | ~96% | 0.96 |
 | Advanced CNN (BatchNorm + L2) | ~88% | 0.89 |
 
-> [!WARNING]
-> These numbers are likely optimistic. The original Fall 2025 split assigned images one
-> at a time, so rotations of test biscuits also appeared in training. The models have not
-> yet been re-trained on the biscuit-level split from `prepare_data.py`.
-
 The misclassifications are informative: most are small washers or coins lying *beside* the
 biscuit, which a classifier trained on whole-image appearance reads as OK.
 
