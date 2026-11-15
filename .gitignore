@@ -1,0 +1,19 @@
+# Data (download from Kaggle; see README)
+data/
+IndustryBiscuit/
+DS/
+DS_multiclass/
+*.zip
+
+# Model weights
+*.pt
+*.pth
+*.keras
+*.h5
+*.ckpt
+
+# Python / Jupyter
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+.DS_Store
