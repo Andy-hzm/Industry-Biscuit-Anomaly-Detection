@@ -22,3 +22,7 @@ __pycache__/
 
 # Office lock files
 ~$*
+
+# Course reports are kept out of the repo
+docs/*.docx
+docs/*.pdf

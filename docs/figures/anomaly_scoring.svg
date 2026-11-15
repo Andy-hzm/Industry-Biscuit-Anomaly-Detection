@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 320" width="900" height="320" role="img" aria-labelledby="title desc">
+  <title id="title">Two ways to score an anomaly</title>
+  <desc id="desc">Left: reconstruction-based models encode and decode the image and score the pixel error; powerful models redraw defects so the error stays small. Right: a frozen ResNet18 maps the image to a 512-dimensional feature vector and a One-Class SVM fit on OK biscuits scores the distance outside the normal boundary.</desc>
+  <style>
+    svg { --t1:#0b0b0b; --t2:#52514e; --box:#f6f5f2; --line:#cfcdc7; --accent:#2a78d6; --accent-bg:#e8f0fb; --good:#008300; --bad:#c43a39; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; }
+    @media (prefers-color-scheme: dark) { svg { --t1:#f0efec; --t2:#c3c2b7; --box:#1c1c1b; --line:#45443f; --accent:#3987e5; --accent-bg:#14243a; --good:#2fb52f; --bad:#e66767; } }
+    .t1 { fill:var(--t1); } .t2 { fill:var(--t2); } .acc { fill:var(--accent); }
+    .good { fill:var(--good); font-weight:700; } .bad { fill:var(--bad); font-weight:700; }
+    .panel { fill:none; stroke:var(--line); stroke-width:1.5; }
+    .box { fill:var(--box); stroke:var(--line); stroke-width:1.5; }
+    .hl  { fill:var(--accent-bg); stroke:var(--accent); stroke-width:1.5; }
+    .arrow { fill:none; stroke:var(--t2); stroke-width:1.75; marker-end:url(#head); }
+    .h { font-size:15px; font-weight:600; } .b { font-size:13px; } .s { font-size:12px; }
+  </style>
+  <defs>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" style="fill:var(--t2)"/>
+    </marker>
+  </defs>
+
+  <!-- Left: reconstruction -->
+  <rect class="panel" x="10" y="10" width="430" height="300" rx="10"/>
+  <text class="t1 h" x="30" y="40">Reconstruction-based</text>
+  <text class="t2 s" x="30" y="60">Autoencoder · VAE · DCGAN · ViT-VAE · DDPM</text>
+
+  <rect class="box" x="30" y="88" width="64" height="44" rx="6"/><text class="t1 b" x="62" y="115" text-anchor="middle">image x</text>
+  <path class="arrow" d="M94 110 H112"/>
+  <rect class="box" x="114" y="88" width="80" height="44" rx="6"/><text class="t1 b" x="154" y="115" text-anchor="middle">encoder</text>
+  <path class="arrow" d="M194 110 H212"/>
+  <rect class="hl" x="214" y="92" width="36" height="36" rx="18"/><text class="t1 b" x="232" y="115" text-anchor="middle" style="font-style:italic">z</text>
+  <path class="arrow" d="M250 110 H268"/>
+  <rect class="box" x="270" y="88" width="80" height="44" rx="6"/><text class="t1 b" x="310" y="115" text-anchor="middle">decoder</text>
+  <path class="arrow" d="M350 110 H368"/>
+  <rect class="box" x="370" y="88" width="52" height="44" rx="6"/><text class="t1 b" x="396" y="115" text-anchor="middle">x̂</text>
+
+  <path class="arrow" d="M62 132 V158 H168"/>
+  <path class="arrow" d="M396 132 V158 H304"/>
+  <text class="acc b" x="236" y="163" text-anchor="middle" style="font-weight:600">score = ‖x − x̂‖²</text>
+
+  <text class="good b" x="30" y="210">✓</text>
+  <text class="t1 b" x="48" y="210">A model that can only draw normal biscuits</text>
+  <text class="t1 b" x="48" y="228">leaves stains and screws out → large error.</text>
+  <text class="bad b" x="30" y="262">✗</text>
+  <text class="t1 b" x="48" y="262">Powerful models (ViT-VAE, DDPM) redraw the</text>
+  <text class="t1 b" x="48" y="280">defect too, so the error barely moves.</text>
+
+  <!-- Right: feature distance -->
+  <rect class="panel" x="460" y="10" width="430" height="300" rx="10"/>
+  <text class="t1 h" x="480" y="40">Feature-based</text>
+  <text class="t2 s" x="480" y="60">ResNet18 (ImageNet, frozen) + One-Class SVM</text>
+
+  <rect class="box" x="480" y="88" width="64" height="44" rx="6"/><text class="t1 b" x="512" y="115" text-anchor="middle">image x</text>
+  <path class="arrow" d="M544 110 H562"/>
+  <rect class="box" x="564" y="82" width="92" height="56" rx="6"/>
+  <text class="t1 b" x="610" y="106" text-anchor="middle">ResNet18</text><text class="t2 s" x="610" y="124" text-anchor="middle">frozen</text>
+  <path class="arrow" d="M656 110 H674"/>
+  <rect class="hl" x="676" y="88" width="60" height="44" rx="6"/><text class="t1 b" x="706" y="115" text-anchor="middle">512-d</text>
+  <path class="arrow" d="M736 110 H754"/>
+  <rect class="box" x="756" y="82" width="116" height="56" rx="6"/>
+  <text class="t1 b" x="814" y="106" text-anchor="middle">One-Class SVM</text><text class="t2 s" x="814" y="124" text-anchor="middle">fit on OK only</text>
+
+  <text class="acc b" x="675" y="163" text-anchor="middle" style="font-weight:600">score = distance outside the OK boundary</text>
+
+  <text class="good b" x="480" y="210">✓</text>
+  <text class="t1 b" x="498" y="210">Nothing to redraw: a washer or a stain shifts</text>
+  <text class="t1 b" x="498" y="228">the features however small it is.</text>
+  <text class="good b" x="480" y="262">✓</text>
+  <text class="t1 b" x="498" y="262">Flagged biscuits cluster by defect type</text>
+  <text class="t1 b" x="498" y="280">without ever seeing a defect label.</text>
+</svg>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 382" width="820" height="382" role="img" aria-labelledby="title desc">
+  <title id="title">Anomaly detection: F1 on the defective class</title>
+  <desc id="desc">DCGAN 0.89, ResNet18 plus One-Class SVM 0.85, convolutional VAE 0.82, convolutional autoencoder 0.70, ViT-VAE 0.65; the DDPM diffusion model did not separate defective from OK biscuits.</desc>
+  <style>
+    svg { --t1:#0b0b0b; --t2:#52514e; --grid:#e4e2dd; --bar:#2a78d6; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; }
+    @media (prefers-color-scheme: dark) { svg { --t1:#f0efec; --t2:#c3c2b7; --grid:#383733; --bar:#3987e5; } }
+    .t1 { fill:var(--t1); } .t2 { fill:var(--t2); }
+    .grid { stroke:var(--grid); stroke-width:1; } .bar { fill:var(--bar); }
+    .h { font-size:16px; font-weight:600; } .b { font-size:13px; } .s { font-size:12px; }
+  </style>
+  <text class="t1 h" x="10" y="24">Anomaly detection — F1 on the defective class (test set)</text>
+  <text class="t2 s" x="10" y="44">Trained on OK biscuits only. Phase 1 and phase 2 used different test splits (400 vs. 200 images).</text>
+    <line class="grid" x1="250" y1="64" x2="250" y2="324"/>
+  <text class="t2 s" x="250" y="342" text-anchor="middle">0.00</text>
+  <line class="grid" x1="325" y1="64" x2="325" y2="324"/>
+  <text class="t2 s" x="325" y="342" text-anchor="middle">0.25</text>
+  <line class="grid" x1="400" y1="64" x2="400" y2="324"/>
+  <text class="t2 s" x="400" y="342" text-anchor="middle">0.50</text>
+  <line class="grid" x1="475" y1="64" x2="475" y2="324"/>
+  <text class="t2 s" x="475" y="342" text-anchor="middle">0.75</text>
+  <line class="grid" x1="550" y1="64" x2="550" y2="324"/>
+  <text class="t2 s" x="550" y="342" text-anchor="middle">1.00</text>
+  <text class="t1 b" x="238" y="76" text-anchor="end">DCGAN</text>
+  <text class="t2 s" x="238" y="91" text-anchor="end">phase 1</text>
+  <path class="bar" d="M250 68.0 H512.7 Q516.7 68.0 516.7 72.0 V84.0 Q516.7 88.0 512.7 88.0 H250 Z"><title>DCGAN: F1 0.89 (P 0.92 · R 0.86)</title></path>
+  <text class="t1 b" x="524.7" y="83" style="font-weight:600">0.89</text>
+  <text class="t2 s" x="600" y="83">P 0.92 · R 0.86</text>
+  <text class="t1 b" x="238" y="120" text-anchor="end">ResNet18 + One-Class SVM</text>
+  <text class="t2 s" x="238" y="135" text-anchor="end">phase 2</text>
+  <path class="bar" d="M250 112.0 H500.1 Q504.1 112.0 504.1 116.0 V128.0 Q504.1 132.0 500.1 132.0 H250 Z"><title>ResNet18 + One-Class SVM: F1 0.85 (P 0.90 · R 0.80 · AUC 0.93)</title></path>
+  <text class="t1 b" x="512.1" y="127" style="font-weight:600">0.85</text>
+  <text class="t2 s" x="600" y="127">P 0.90 · R 0.80 · AUC 0.93</text>
+  <text class="t1 b" x="238" y="164" text-anchor="end">Convolutional VAE</text>
+  <text class="t2 s" x="238" y="179" text-anchor="end">phase 1</text>
+  <path class="bar" d="M250 156.0 H492.0 Q496.0 156.0 496.0 160.0 V172.0 Q496.0 176.0 492.0 176.0 H250 Z"><title>Convolutional VAE: F1 0.82 (P 0.72 · R 0.95)</title></path>
+  <text class="t1 b" x="504.0" y="171" style="font-weight:600">0.82</text>
+  <text class="t2 s" x="600" y="171">P 0.72 · R 0.95</text>
+  <text class="t1 b" x="238" y="208" text-anchor="end">Convolutional autoencoder</text>
+  <text class="t2 s" x="238" y="223" text-anchor="end">phase 1</text>
+  <path class="bar" d="M250 200.0 H456.0 Q460.0 200.0 460.0 204.0 V216.0 Q460.0 220.0 456.0 220.0 H250 Z"><title>Convolutional autoencoder: F1 0.70 (P 0.93 · R 0.56)</title></path>
+  <text class="t1 b" x="468.0" y="215" style="font-weight:600">0.70</text>
+  <text class="t2 s" x="600" y="215">P 0.93 · R 0.56</text>
+  <text class="t1 b" x="238" y="252" text-anchor="end">ViT-VAE</text>
+  <text class="t2 s" x="238" y="267" text-anchor="end">phase 1</text>
+  <path class="bar" d="M250 244.0 H440.7 Q444.7 244.0 444.7 248.0 V260.0 Q444.7 264.0 440.7 264.0 H250 Z"><title>ViT-VAE: F1 0.65 (P 0.49 · R 0.96 · AUC 0.61)</title></path>
+  <text class="t1 b" x="452.7" y="259" style="font-weight:600">0.65</text>
+  <text class="t2 s" x="600" y="259">P 0.49 · R 0.96 · AUC 0.61</text>
+  <text class="t1 b" x="238" y="296" text-anchor="end">DDPM diffusion</text>
+  <text class="t2 s" x="238" y="311" text-anchor="end">phase 2</text>
+  <text class="t2 b" x="256" y="303" style="font-style:italic">no separation: defects score no higher than OK</text>
+</svg>
